@@ -1,0 +1,74 @@
+Recopilación Completa – Fase de Análisis y Planificación
+Agente IA Generador de Workflows n8n (JSON)
+
+Este documento contiene la recopilación íntegra, sin resumen conceptual, de todas las decisiones, definiciones,
+reglas, arquitecturas, pseudocódigo, catálogos, DSL, estimaciones y tecnologías definidas durante la fase de
+análisis y planificación del proyecto.
+Objetivo del Sistema
+Construir una IA especializada capaz de generar workflows en n8n desde cero y convertir descripciones en
+lenguaje natural o JSON parcial en JSON final importable, con precisión técnica y validación estricta.
+
+
+Principios de Diseño
+- Precisión técnica sobre creatividad
+- Dominio único: n8n
+- El LLM no controla la estructura
+- Validación obligatoria por JSON Schema
+- Sin aprendizaje persistente
+- Versionamiento explícito
+
+
+Arquitectura General
+Prompt / JSON parcial → Prompt Contract Parser → LLM (razonamiento) → Motor de Reglas → Generador
+JSON → Validador → Output Formatter
+
+
+Contrato del Prompt
+Se define un contrato semiestructurado con secciones de metadata, trigger, workflow, restricciones y
+supuestos. En strict_mode cualquier ambigüedad genera error.
+
+
+DSL Final del Prompt
+@meta n8n_version, output, strict
+@trigger type, method, path
+@workflow pasos numerados
+@constraints reglas
+@assumptions supuestos
+
+
+Motor de Reglas
+Componente central que aplica reglas de entrada, estructurales, de nodos, compatibilidad, flujo y salida. El LLM
+propone, el motor decide.
+
+
+Catálogo de Nodos
+Triggers: Webhook, Cron, Manual Trigger
+Core: IF, Switch, Merge, NoOp
+Data: Set, Function, Function Item
+Integración: HTTP Request
+
+
+JSON Schema n8n
+Definición de estructura raíz, nodos, conexiones y restricciones lógicas complementarias aplicadas por el motor
+de reglas.
+Validador
+Valida sintaxis JSON, schema n8n, trigger único, conectividad, y reglas por tipo de nodo.
+
+
+Backlog Técnico
+Incluye épicas para prompt contract, conocimiento n8n, motor de reglas, plantillas, validador y formatos de
+salida.
+
+
+MVP
+n8n (una versión), nodos base, input técnico en strict_mode y output JSON importable.
+
+
+Estimación Técnica
+Duración estimada: 10–11 semanas con un ingeniero senior y apoyo.
+
+
+Tecnologías
+Node.js, TypeScript, Ajv, Zod (opcional), integración con LLM (OpenAI/Anthropic), arquitectura monolítica
+modular.
+
