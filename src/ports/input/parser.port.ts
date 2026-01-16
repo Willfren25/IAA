@@ -7,7 +7,8 @@
 
 import type { PromptContract, PromptParseResult } from '@core/domain/types/prompt.types.js';
 
-import type { PromptSection, SectionExtractionResult } from './prompt-contract.port.js';
+// Re-export types from prompt-contract.port for convenience
+export type { PromptSection, SectionExtractionResult } from './prompt-contract.port.js';
 
 /**
  * Token del lexer de prompts

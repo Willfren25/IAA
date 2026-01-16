@@ -4,6 +4,9 @@
   "description": "IA Agent specialized in generating n8n workflows from natural language or partial JSON",
   "type": "module",
   "main": "dist/index.js",
+  "bin": {
+    "iaa": "./dist/adapters/input/cli/cli.js"
+  },
   "exports": {
     ".": {
       "import": "./dist/index.js",
@@ -12,11 +15,25 @@
     "./core": {
       "import": "./dist/core/index.js",
       "types": "./dist/core/index.d.ts"
+    },
+    "./ports": {
+      "import": "./dist/ports/index.js",
+      "types": "./dist/ports/index.d.ts"
+    },
+    "./adapters": {
+      "import": "./dist/adapters/index.js",
+      "types": "./dist/adapters/index.d.ts"
+    },
+    "./cli": {
+      "import": "./dist/adapters/input/cli/index.js",
+      "types": "./dist/adapters/input/cli/index.d.ts"
     }
   },
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
+    "start": "node dist/adapters/input/cli/cli.js",
+    "cli": "node --loader ts-node/esm src/adapters/input/cli/cli.ts",
     "lint": "eslint src --ext .ts --fix",
     "format": "prettier --write \"src/**/*.ts\"",
     "type-check": "tsc --noEmit",
@@ -39,11 +56,14 @@
   "dependencies": {
     "ajv": "^8.17.1",
     "ajv-formats": "^3.0.1",
+    "chalk": "^5.6.2",
+    "commander": "^14.0.2",
+    "ora": "^9.0.0",
     "zod": "^3.22.4"
   },
   "devDependencies": {
     "@types/ajv": "^0.0.5",
-    "@types/node": "^20.10.6",
+    "@types/node": "^20.19.30",
     "@typescript-eslint/eslint-plugin": "^6.17.0",
     "@typescript-eslint/parser": "^6.17.0",
     "eslint": "^8.56.0",
