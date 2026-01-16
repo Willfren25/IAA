@@ -5,4 +5,11 @@
  * Es el corazón de la aplicación y representa conceptos del dominio n8n.
  */
 
-export {};
+// Domain - Types, Enums, Constants, DTOs
+export * from './domain/index.js';
+
+// Rules Engine - Strategy Pattern
+export * from './rules/index.js';
+
+// Validation - JSON Schema + AJV
+export * from './validation/index.js';
