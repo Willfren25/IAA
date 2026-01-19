@@ -12,13 +12,13 @@ import type {
   PromptContractOptions,
   ContractValidationResult,
   ContractConversionResult,
-} from '@ports/input/prompt-contract.port.js';
+} from '#ports/input/prompt-contract.port.js';
 
 import {
   REQUIRED_SECTIONS_NORMAL,
   REQUIRED_SECTIONS_STRICT,
   ALL_SECTIONS,
-} from '@ports/input/prompt-contract.port.js';
+} from '#ports/input/prompt-contract.port.js';
 
 import type {
   PromptMeta,
@@ -29,7 +29,7 @@ import type {
   PromptContract,
   OutputFormat,
   PromptTriggerType,
-} from '@core/domain/types/prompt.types.js';
+} from '#core/domain/types/prompt.types.js';
 
 /**
  * Regex patterns para extraer secciones

@@ -18,7 +18,7 @@ import type {
   ParserWarning,
   PromptSection,
   SectionExtractionResult,
-} from '@ports/input/parser.port.js';
+} from '#ports/input/parser.port.js';
 
 import type {
   PromptContract,
@@ -28,9 +28,9 @@ import type {
   PromptConstraints,
   PromptAssumptions,
   PromptParseResult,
-} from '@core/domain/types/prompt.types.js';
+} from '#core/domain/types/prompt.types.js';
 
-import { TOKEN_PATTERNS, DSL_KEYWORDS } from '@ports/input/parser.port.js';
+import { TOKEN_PATTERNS, DSL_KEYWORDS } from '#ports/input/parser.port.js';
 
 /**
  * Implementación del Parser DSL

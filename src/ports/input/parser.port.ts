@@ -5,10 +5,10 @@
  * Soporta tokenización, AST y transformación a estructuras de dominio.
  */
 
-import type { PromptContract, PromptParseResult } from '@core/domain/types/prompt.types.js';
+import type { PromptContract, PromptParseResult } from '#core/domain/types/prompt.types.js';
+import type { PromptSection, SectionExtractionResult } from './prompt-contract.port.js';
 
-// Re-export types from prompt-contract.port for convenience
-export type { PromptSection, SectionExtractionResult } from './prompt-contract.port.js';
+export type { PromptSection, SectionExtractionResult };
 
 /**
  * Token del lexer de prompts

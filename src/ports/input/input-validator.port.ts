@@ -5,8 +5,8 @@
  * contra el contrato de prompt y schemas definidos.
  */
 
-import type { PromptContract } from '@core/domain/types/prompt.types.js';
-import type { ValidationResult } from '@core/validation/types/validation.types.js';
+import type { PromptContract } from '#core/domain/types/prompt.types.js';
+import type { ValidationResult } from '#core/validation/types/validation.types.js';
 
 /**
  * Nivel de severidad de validación

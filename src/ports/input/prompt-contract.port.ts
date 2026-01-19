@@ -13,7 +13,7 @@ import type {
   PromptConstraints,
   PromptAssumptions,
   OutputFormat,
-} from '@core/domain/types/prompt.types.js';
+} from '#core/domain/types/prompt.types.js';
 
 /**
  * Sección del contrato de prompt

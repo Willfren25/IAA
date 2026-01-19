@@ -5,7 +5,7 @@
  * compatibles con la importación de n8n.
  */
 
-import type { N8nWorkflow } from '@core/domain/types/workflow.types.js';
+import type { N8nWorkflow } from '#core/domain/types/workflow.types.js';
 
 /**
  * Formato de exportación

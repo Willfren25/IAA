@@ -5,10 +5,10 @@
  * compatibles con n8n a partir de contratos de prompt.
  */
 
-import type { PromptContract } from '@core/domain/types/prompt.types.js';
-import type { N8nWorkflow } from '@core/domain/types/workflow.types.js';
-import type { N8nNode, NodeParameters } from '@core/domain/types/node.types.js';
-import type { WorkflowConnections } from '@core/domain/types/connection.types.js';
+import type { PromptContract } from '#core/domain/types/prompt.types.js';
+import type { N8nWorkflow } from '#core/domain/types/workflow.types.js';
+import type { N8nNode, NodeParameters } from '#core/domain/types/node.types.js';
+import type { WorkflowConnections } from '#core/domain/types/connection.types.js';
 
 /**
  * Opciones de generación JSON

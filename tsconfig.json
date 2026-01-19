@@ -34,13 +34,13 @@
     "isolatedModules": true,
     "typeRoots": ["./src/types", "./node_modules/@types"],
     "paths": {
-      "@core/*": ["core/*"],
-      "@ports/*": ["ports/*"],
-      "@adapters/*": ["adapters/*"],
-      "@application/*": ["application/*"],
-      "@infrastructure/*": ["infrastructure/*"]
+      "#core/*": ["core/*"],
+      "#ports/*": ["ports/*"],
+      "#adapters/*": ["adapters/*"],
+      "#application/*": ["application/*"],
+      "#infrastructure/*": ["infrastructure/*"]
     }
   },
   "include": ["src"],
-  "exclude": ["node_modules", "dist", "**/*.test.ts"]
+  "exclude": ["node_modules", "dist", "frontend", "**/*.test.ts"]
 }

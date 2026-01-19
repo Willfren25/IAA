@@ -8,9 +8,102 @@
  * Principios: SOLID, DDD, Clean Code
  */
 
-// Re-exports (una vez que haya contenido)
-// export * from './core';
-// export * from './ports';
-// export * from './application';
+// =====================================================
+// APPLICATION LAYER - Main Services
+// =====================================================
+export {
+  // Agent Orchestrator - Main entry point
+  AgentOrchestrator,
+  getAgentOrchestrator,
+  createAgentOrchestrator,
+  type AgentExecutionState,
+  type AgentExecutionEvent,
+  type AgentExecutionResult,
+  type AgentOrchestratorOptions,
+  
+  // Workflow Generation
+  WorkflowGenerationService,
+  getWorkflowGenerationService,
+  createWorkflowGenerationService,
+  type WorkflowGenerationOptions,
+  type WorkflowGenerationResult,
+  
+  // Prompt Processing
+  PromptProcessingService,
+  getPromptProcessingService,
+  createPromptProcessingService,
+  type RawPrompt,
+  type PromptProcessingResult,
+  type PromptProcessingOptions,
+} from './application/index.js';
 
-export const version = '0.1.0';
+// =====================================================
+// OUTPUT ADAPTERS - Formatters, Generators, Exporters
+// =====================================================
+export {
+  // Formatters
+  JsonFormatter,
+  PrettyJsonFormatter,
+  YamlFormatter,
+  HumanReadableFormatter,
+  FormatterRegistry,
+  createFormatter,
+  getFormatterRegistry,
+  type OutputFormat,
+  type OutputFormatterAdapter,
+  type FormatterResult,
+  
+  // Generator
+  N8nJsonGenerator,
+  type N8nGeneratorOptions,
+  type GeneratorResult,
+  type N8nWorkflow,
+  type N8nNode,
+  type N8nConnections,
+  
+  // Exporter
+  WorkflowExporter,
+  getWorkflowExporter,
+  createWorkflowExporter,
+  type WorkflowExportOptions,
+  type WorkflowExportResult,
+  type ExportManifest,
+} from './adapters/output/index.js';
+
+// =====================================================
+// CORE - Domain Types and Validation
+// =====================================================
+export type {
+  PromptContract,
+  PromptMeta,
+  PromptTrigger,
+  WorkflowStep,
+  PromptConstraints,
+  PromptAssumptions,
+} from './core/domain/types/prompt.types.js';
+
+// =====================================================
+// VERSION
+// =====================================================
+export const version = '1.0.0';
+
+// =====================================================
+// MAIN CLI FUNCTION
+// =====================================================
+
+/**
+ * Main function - Entry point for CLI
+ */
+export async function main(args: string[] = process.argv.slice(2)): Promise<void> {
+  const { runCli } = await import('./adapters/input/cli/cli.js');
+  await runCli(args);
+}
+
+// Run if executed directly
+const isMainModule = import.meta.url === `file://${process.argv[1]}`;
+if (isMainModule) {
+  main().catch(error => {
+    console.error('Fatal error:', error);
+    process.exit(1);
+  });
+}

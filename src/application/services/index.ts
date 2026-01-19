@@ -1,29 +1,28 @@
 /**
- * Application Layer
- *
- * Casos de uso, servicios de aplicación y orquestadores.
- * Aquí se implementa la lógica de coordinación entre puertos y el core.
- * Implementa principios SOLID: SRP, DIP.
+ * Application Services Index - Exports
  */
 
-// Services
+// Workflow Generation Service
 export {
-  // Workflow Generation
   WorkflowGenerationService,
   getWorkflowGenerationService,
   createWorkflowGenerationService,
   type WorkflowGenerationOptions,
   type WorkflowGenerationResult,
-  
-  // Prompt Processing
+} from './workflow-generation.service.js';
+
+// Prompt Processing Service
+export {
   PromptProcessingService,
   getPromptProcessingService,
   createPromptProcessingService,
   type RawPrompt,
   type PromptProcessingResult,
   type PromptProcessingOptions,
-  
-  // Agent Orchestrator
+} from './prompt-processing.service.js';
+
+// Agent Orchestrator
+export {
   AgentOrchestrator,
   getAgentOrchestrator,
   createAgentOrchestrator,
@@ -31,4 +30,4 @@ export {
   type AgentExecutionEvent,
   type AgentExecutionResult,
   type AgentOrchestratorOptions,
-} from './services/index.js';
+} from './agent-orchestrator.service.js';

@@ -1,0 +1,163 @@
+---
+import Layout from '@layouts/Layout.astro';
+
+const templates = [
+  {
+    id: 'webhook-slack',
+    name: 'Webhook a Slack',
+    description: 'Recibe datos via webhook y envía notificaciones a Slack',
+    tags: ['webhook', 'slack', 'notificaciones'],
+    prompt: `@meta
+n8n_version: 1.0.0
+output: json
+
+@trigger
+type: webhook
+method: POST
+path: /notify
+
+@workflow
+1. Recibir datos del webhook
+2. Extraer mensaje del payload
+3. Enviar mensaje a canal de Slack
+4. Retornar confirmación
+
+@constraints
+- max_nodes: 5
+
+@assumptions
+- credentials_exist`
+  },
+  {
+    id: 'cron-email',
+    name: 'Reporte Diario por Email',
+    description: 'Genera y envía reportes automáticos vía Gmail',
+    tags: ['cron', 'email', 'reportes'],
+    prompt: `@meta
+n8n_version: 1.0.0
+output: json
+
+@trigger
+type: cron
+schedule: 0 9 * * *
+
+@workflow
+1. Ejecutar trigger por schedule
+2. Consultar datos de la base de datos
+3. Formatear datos como reporte HTML
+4. Enviar reporte por Gmail
+5. Registrar envío exitoso
+
+@constraints
+- max_nodes: 8
+- timeout: 60
+
+@assumptions
+- credentials_exist
+- error_handling: notify`
+  },
+  {
+    id: 'api-database',
+    name: 'API REST con Base de Datos',
+    description: 'CRUD completo conectado a PostgreSQL',
+    tags: ['webhook', 'postgres', 'api'],
+    prompt: `@meta
+n8n_version: 1.0.0
+output: json
+
+@trigger
+type: webhook
+method: POST
+path: /api/users
+
+@workflow
+1. Recibir request con datos del usuario
+2. Validar campos requeridos
+3. Si validación ok, insertar en PostgreSQL
+4. Si falla validación, retornar error 400
+5. Retornar usuario creado con ID
+
+@constraints
+- max_nodes: 8
+
+@assumptions
+- credentials_exist
+- error_handling: retry`
+  },
+  {
+    id: 'conditional-flow',
+    name: 'Flujo Condicional',
+    description: 'Procesa datos con múltiples ramas condicionales',
+    tags: ['if', 'switch', 'condicional'],
+    prompt: `@meta
+n8n_version: 1.0.0
+output: json
+
+@trigger
+type: webhook
+method: POST
+path: /process
+
+@workflow
+1. Recibir datos del cliente
+2. Evaluar tipo de cliente
+3. Si es premium, enviar a equipo VIP
+4. Si es regular, procesar normalmente
+5. Si es nuevo, enviar bienvenida
+6. Registrar resultado
+
+@constraints
+- max_nodes: 10
+
+@assumptions
+- error_handling: retry`
+  },
+];
+---
+
+<Layout title="Templates">
+  <section class="py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h1 class="text-4xl font-bold mb-4">
+          Templates de <span class="gradient-text">Workflows</span>
+        </h1>
+        <p class="text-gray-400 max-w-2xl mx-auto">
+          Comienza rápidamente con estos templates prediseñados. 
+          Haz clic en "Usar Template" para cargar el prompt en el generador.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        {templates.map((template) => (
+          <div class="card group hover:border-n8n-primary/50 transition-all duration-300">
+            <div class="card-header">
+              <h3 class="font-semibold text-lg">{template.name}</h3>
+              <div class="flex gap-2">
+                {template.tags.slice(0, 2).map((tag) => (
+                  <span class="badge bg-n8n-primary/20 text-n8n-primary text-xs">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <div class="card-body">
+              <p class="text-gray-400 text-sm mb-4">{template.description}</p>
+              
+              <div class="bg-n8n-dark rounded-lg p-4 mb-4 max-h-48 overflow-y-auto">
+                <pre class="text-xs font-mono text-gray-400 whitespace-pre-wrap">{template.prompt}</pre>
+              </div>
+
+              <a
+                href={`/?template=${template.id}`}
+                class="btn-primary w-full text-center block"
+              >
+                Usar Template
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>

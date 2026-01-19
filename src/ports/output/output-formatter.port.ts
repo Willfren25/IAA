@@ -5,7 +5,7 @@
  * en diferentes formatos: JSON, YAML, etc.
  */
 
-import type { N8nWorkflow } from '@core/domain/types/workflow.types.js';
+import type { N8nWorkflow } from '#core/domain/types/workflow.types.js';
 
 /**
  * Formato de salida soportado

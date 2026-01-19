@@ -16,6 +16,10 @@ import type {
   CliExecutionStats,
 } from './types.js';
 import { EXIT_CODES, CLI_ERROR_CODES } from './types.js';
+import {
+  getAgentOrchestrator,
+  type AgentExecutionEvent,
+} from '../../../application/index.js';
 
 /**
  * Comando generate - Genera workflow n8n desde prompt
@@ -25,7 +29,7 @@ export async function generateCommand(
   logger: CliLogger
 ): Promise<CliExecutionResult> {
   const startTime = new Date();
-
+  
   logger.debug(`Starting generate command with options: ${JSON.stringify(options)}`);
 
   // Validar que el archivo de entrada existe
@@ -62,14 +66,44 @@ export async function generateCommand(
     };
   }
 
-  // Si es solo validación, no generar
+  // Usar el Agent Orchestrator para procesar
+  const orchestrator = getAgentOrchestrator();
+  
+  // Handler de eventos
+  const onEvent = (event: AgentExecutionEvent): void => {
+    if (options.verbose) {
+      logger.debug(`[${event.state}] ${event.message}`);
+    } else {
+      logger.spinner.update(event.message);
+    }
+  };
+
+  logger.spinner.update('Processing prompt...');
+
+  // Ejecutar orquestador
+  const result = await orchestrator.executeFromText(inputContent, {
+    promptOptions: {
+      extractVariables: true,
+      inferDependencies: true,
+      detectTrigger: true,
+    },
+    generationOptions: {
+      format: options.format === 'yaml' ? 'yaml' : 'json',
+      validate: !options.validateOnly,
+    },
+    autoExport: false,
+    onEvent,
+    verbose: options.verbose,
+  });
+
+  // Si es solo validación
   if (options.validateOnly) {
-    logger.spinner.update('Validating prompt...');
-
-    // TODO: Implementar validación real cuando el parser esté listo
-    const isValid = inputContent.includes('@workflow');
-
+    const isValid = result.success && !result.errors.length;
     logger.spinner.stop(isValid, isValid ? 'Prompt is valid' : 'Validation failed');
+    
+    if (!isValid && result.errors.length > 0) {
+      result.errors.forEach(err => logger.error(`  - ${err}`));
+    }
 
     const endTime = new Date();
     return {
@@ -85,14 +119,25 @@ export async function generateCommand(
     };
   }
 
-  logger.spinner.update('Generating workflow...');
+  // Verificar resultado de generación
+  if (!result.success || !result.workflowResult?.workflow) {
+    logger.spinner.stop(false, 'Generation failed');
+    result.errors.forEach(err => logger.error(`  - ${err}`));
+    
+    return {
+      success: false,
+      exitCode: EXIT_CODES.ERROR_VALIDATION_FAILED,
+      error: {
+        code: CLI_ERROR_CODES.GENERATION_ERROR,
+        message: result.errors.join('; ') || 'Workflow generation failed',
+      },
+    };
+  }
 
-  // TODO: Implementar generación real cuando el generador esté listo
-  // Por ahora, generamos un workflow placeholder
-  const workflow = generatePlaceholderWorkflow(inputContent, options);
+  const workflow = result.workflowResult.workflow;
 
   // Determinar archivo de salida
-  const outputPath = options.output
+  const outputPath = options.output 
     ? resolve(options.output)
     : resolve(dirname(inputPath), `${basename(inputPath, extname(inputPath))}.json`);
 
@@ -120,7 +165,7 @@ export async function generateCommand(
 
   // Escribir archivo
   try {
-    const outputContent = JSON.stringify(workflow, null, 2);
+    const outputContent = result.workflowResult.formattedOutput ?? JSON.stringify(workflow, null, 2);
     writeFileSync(outputPath, outputContent, 'utf-8');
     logger.spinner.stop(true, `Workflow generated: ${outputPath}`);
   } catch (error) {
@@ -143,10 +188,15 @@ export async function generateCommand(
     durationMs: endTime.getTime() - startTime.getTime(),
     inputFile: inputPath,
     outputFile: outputPath,
-    nodesGenerated: (workflow['nodes'] as unknown[] | undefined)?.length ?? 0,
-    connectionsGenerated: Object.keys((workflow['connections'] as Record<string, unknown>) ?? {})
-      .length,
+    nodesGenerated: result.workflowResult.stats.nodeCount,
+    connectionsGenerated: result.workflowResult.stats.connectionCount,
   };
+
+  // Mostrar warnings si hay
+  if (result.warnings.length > 0) {
+    logger.warning('Warnings:');
+    result.warnings.forEach(w => logger.warning(`  - ${w}`));
+  }
 
   logger.info(`Generated ${stats.nodesGenerated} nodes in ${stats.durationMs}ms`);
 
@@ -356,13 +406,13 @@ function extractSections(content: string): Record<string, string | null> {
     if (!currentMatch) {
       continue;
     }
-
+    
     const sectionName = `@${currentMatch[1]?.toLowerCase() ?? ''}`;
     const matchIndex = currentMatch.index ?? 0;
     const startIndex = matchIndex + currentMatch[0].length;
     const nextMatch = matches[i + 1];
     const endIndex = nextMatch?.index ?? content.length;
-
+    
     sections[sectionName] = content.slice(startIndex, endIndex).trim();
   }
 
@@ -372,8 +422,9 @@ function extractSections(content: string): Record<string, string | null> {
 /**
  * Genera un workflow placeholder (temporal)
  * TODO: Reemplazar con generación real
+ * @internal - Función auxiliar para desarrollo/testing
  */
-function generatePlaceholderWorkflow(
+export function _generatePlaceholderWorkflow(
   _content: string,
   options: GenerateCommandOptions
 ): Record<string, unknown> {

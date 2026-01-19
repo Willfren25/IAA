@@ -4,7 +4,7 @@
  * Define las estructuras de datos para comandos y opciones del CLI.
  */
 
-import type { OutputFormat } from '@core/domain/types/prompt.types.js';
+import type { OutputFormat } from '#core/domain/types/prompt.types.js';
 
 /**
  * Opciones globales del CLI

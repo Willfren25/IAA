@@ -1,0 +1,281 @@
+---
+import Layout from '@layouts/Layout.astro';
+---
+
+<Layout title="Documentación">
+  <section class="py-20">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h1 class="text-4xl font-bold mb-8">
+        <span class="gradient-text">Documentación</span> IAA
+      </h1>
+
+      <!-- Table of Contents -->
+      <div class="card mb-12">
+        <div class="card-header">
+          <h2 class="font-semibold">Contenido</h2>
+        </div>
+        <div class="card-body">
+          <nav class="space-y-2">
+            <a href="#introduccion" class="block text-gray-400 hover:text-n8n-primary transition-colors">
+              1. Introducción
+            </a>
+            <a href="#instalacion" class="block text-gray-400 hover:text-n8n-primary transition-colors">
+              2. Instalación
+            </a>
+            <a href="#dsl" class="block text-gray-400 hover:text-n8n-primary transition-colors">
+              3. Sintaxis DSL
+            </a>
+            <a href="#secciones" class="block text-gray-400 hover:text-n8n-primary transition-colors">
+              4. Secciones del Prompt
+            </a>
+            <a href="#ejemplos" class="block text-gray-400 hover:text-n8n-primary transition-colors">
+              5. Ejemplos
+            </a>
+            <a href="#api" class="block text-gray-400 hover:text-n8n-primary transition-colors">
+              6. API Reference
+            </a>
+          </nav>
+        </div>
+      </div>
+
+      <!-- Content -->
+      <div class="prose prose-invert max-w-none">
+        
+        <!-- Introducción -->
+        <section id="introduccion" class="mb-16">
+          <h2 class="text-2xl font-bold mb-4 text-white">1. Introducción</h2>
+          <p class="text-gray-400 mb-4">
+            <strong class="text-white">IAA (Intelligent Automation Agent)</strong> es un sistema que transforma 
+            descripciones en lenguaje natural a workflows de n8n listos para importar.
+          </p>
+          <p class="text-gray-400">
+            Utiliza un DSL (Domain Specific Language) simple con secciones como <code class="text-n8n-primary">@meta</code>, 
+            <code class="text-n8n-primary">@trigger</code>, y <code class="text-n8n-primary">@workflow</code> para 
+            describir tus automatizaciones.
+          </p>
+        </section>
+
+        <!-- Instalación -->
+        <section id="instalacion" class="mb-16">
+          <h2 class="text-2xl font-bold mb-4 text-white">2. Instalación</h2>
+          
+          <h3 class="text-lg font-semibold mb-3 text-white">Requisitos</h3>
+          <ul class="list-disc list-inside text-gray-400 mb-4 space-y-1">
+            <li>Node.js 18+</li>
+            <li>npm o yarn</li>
+            <li>API Key de Anthropic o OpenAI</li>
+          </ul>
+
+          <h3 class="text-lg font-semibold mb-3 text-white">Instalación del Backend</h3>
+          <div class="bg-n8n-dark rounded-lg p-4 mb-4 font-mono text-sm">
+            <code class="text-gray-300">
+              # Clonar repositorio<br/>
+              git clone https://github.com/Willfren25/IAA.git<br/>
+              cd IAA<br/><br/>
+              # Instalar dependencias<br/>
+              npm install<br/><br/>
+              # Configurar variables de entorno<br/>
+              cp .env.example .env<br/>
+              # Editar .env con tu API key<br/><br/>
+              # Compilar y ejecutar<br/>
+              npm run build<br/>
+              npm start -- generate -i examples/sample.prompt
+            </code>
+          </div>
+
+          <h3 class="text-lg font-semibold mb-3 text-white">Instalación del Frontend</h3>
+          <div class="bg-n8n-dark rounded-lg p-4 font-mono text-sm">
+            <code class="text-gray-300">
+              cd frontend<br/>
+              npm install<br/>
+              npm run dev<br/><br/>
+              # Abrir http://localhost:4321
+            </code>
+          </div>
+        </section>
+
+        <!-- DSL -->
+        <section id="dsl" class="mb-16">
+          <h2 class="text-2xl font-bold mb-4 text-white">3. Sintaxis DSL</h2>
+          <p class="text-gray-400 mb-4">
+            El DSL de IAA utiliza marcadores de sección con el prefijo <code class="text-n8n-primary">@</code> 
+            seguido de pares clave-valor o listas.
+          </p>
+          
+          <div class="bg-n8n-dark rounded-lg p-4 font-mono text-sm">
+            <pre class="text-gray-300">@seccion
+campo: valor
+otro_campo: otro valor
+
+@otra_seccion
+- item de lista
+- otro item
+
+1. Paso numerado
+2. Siguiente paso</pre>
+          </div>
+        </section>
+
+        <!-- Secciones -->
+        <section id="secciones" class="mb-16">
+          <h2 class="text-2xl font-bold mb-4 text-white">4. Secciones del Prompt</h2>
+          
+          <div class="space-y-6">
+            <!-- @meta -->
+            <div class="card">
+              <div class="card-header">
+                <code class="text-n8n-primary text-lg">@meta</code>
+                <span class="badge-success">Requerida</span>
+              </div>
+              <div class="card-body">
+                <p class="text-gray-400 mb-3">Configuración general del workflow.</p>
+                <table class="w-full text-sm">
+                  <thead>
+                    <tr class="text-left text-gray-500">
+                      <th class="pb-2">Campo</th>
+                      <th class="pb-2">Tipo</th>
+                      <th class="pb-2">Descripción</th>
+                    </tr>
+                  </thead>
+                  <tbody class="text-gray-400">
+                    <tr><td class="py-1">n8n_version</td><td>string</td><td>Versión de n8n objetivo</td></tr>
+                    <tr><td class="py-1">output</td><td>json|yaml</td><td>Formato de salida</td></tr>
+                    <tr><td class="py-1">strict</td><td>boolean</td><td>Modo estricto</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- @trigger -->
+            <div class="card">
+              <div class="card-header">
+                <code class="text-n8n-primary text-lg">@trigger</code>
+                <span class="badge-success">Requerida</span>
+              </div>
+              <div class="card-body">
+                <p class="text-gray-400 mb-3">Define cómo se inicia el workflow.</p>
+                <table class="w-full text-sm">
+                  <thead>
+                    <tr class="text-left text-gray-500">
+                      <th class="pb-2">Campo</th>
+                      <th class="pb-2">Valores</th>
+                    </tr>
+                  </thead>
+                  <tbody class="text-gray-400">
+                    <tr><td class="py-1">type</td><td>webhook, cron, manual, email, form</td></tr>
+                    <tr><td class="py-1">method</td><td>GET, POST, PUT, DELETE (para webhook)</td></tr>
+                    <tr><td class="py-1">path</td><td>Ruta del webhook</td></tr>
+                    <tr><td class="py-1">schedule</td><td>Expresión cron (para cron)</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- @workflow -->
+            <div class="card">
+              <div class="card-header">
+                <code class="text-n8n-primary text-lg">@workflow</code>
+                <span class="badge-success">Requerida</span>
+              </div>
+              <div class="card-body">
+                <p class="text-gray-400 mb-3">Pasos del workflow en lenguaje natural.</p>
+                <div class="bg-n8n-dark rounded p-3 font-mono text-sm">
+                  <code class="text-gray-300">
+                    @workflow<br/>
+                    1. Recibir datos del webhook<br/>
+                    2. Validar formato del email<br/>
+                    3. Si es válido, guardar en base de datos<br/>
+                    4. Enviar notificación por Slack<br/>
+                    5. Retornar respuesta OK
+                  </code>
+                </div>
+              </div>
+            </div>
+
+            <!-- @constraints -->
+            <div class="card">
+              <div class="card-header">
+                <code class="text-n8n-primary text-lg">@constraints</code>
+                <span class="badge-warning">Opcional</span>
+              </div>
+              <div class="card-body">
+                <p class="text-gray-400 mb-3">Límites y restricciones del workflow.</p>
+                <ul class="text-gray-400 text-sm space-y-1">
+                  <li><code>max_nodes</code> - Número máximo de nodos</li>
+                  <li><code>timeout</code> - Timeout en segundos</li>
+                  <li><code>require_credentials</code> - Requerir credenciales</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- @assumptions -->
+            <div class="card">
+              <div class="card-header">
+                <code class="text-n8n-primary text-lg">@assumptions</code>
+                <span class="badge-warning">Opcional</span>
+              </div>
+              <div class="card-body">
+                <p class="text-gray-400 mb-3">Supuestos para la generación.</p>
+                <ul class="text-gray-400 text-sm space-y-1">
+                  <li><code>credentials_exist</code> - Las credenciales están configuradas</li>
+                  <li><code>error_handling</code> - retry, notify, ignore</li>
+                  <li><code>retries</code> - Número de reintentos</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Ejemplos -->
+        <section id="ejemplos" class="mb-16">
+          <h2 class="text-2xl font-bold mb-4 text-white">5. Ejemplos</h2>
+          <p class="text-gray-400 mb-4">
+            Visita la <a href="/templates" class="text-n8n-primary hover:underline">página de templates</a> 
+            para ver ejemplos completos listos para usar.
+          </p>
+        </section>
+
+        <!-- API -->
+        <section id="api" class="mb-16">
+          <h2 class="text-2xl font-bold mb-4 text-white">6. API Reference</h2>
+          
+          <div class="card">
+            <div class="card-header">
+              <code class="text-n8n-success">POST</code>
+              <code class="text-gray-300 ml-2">/api/generate</code>
+            </div>
+            <div class="card-body">
+              <p class="text-gray-400 mb-3">Genera un workflow a partir de un prompt DSL.</p>
+              
+              <h4 class="font-semibold text-white mb-2">Request Body</h4>
+              <div class="bg-n8n-dark rounded p-3 font-mono text-sm mb-4">
+                <pre class="text-gray-300">{`{
+  "prompt": "@meta\\nn8n_version: 1.0.0\\n...",
+  "options": {
+    "llmProvider": "anthropic",
+    "strictMode": false
+  }
+}`}</pre>
+              </div>
+
+              <h4 class="font-semibold text-white mb-2">Response</h4>
+              <div class="bg-n8n-dark rounded p-3 font-mono text-sm">
+                <pre class="text-gray-300">{`{
+  "success": true,
+  "workflow": { ... },
+  "warnings": [],
+  "stats": {
+    "nodesGenerated": 5,
+    "connectionsGenerated": 4,
+    "generationTimeMs": 1234
+  }
+}`}</pre>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </section>
+</Layout>

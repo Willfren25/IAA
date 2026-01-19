@@ -29,5 +29,5 @@
     "curly": "error",
     "brace-style": "error"
   },
-  "ignorePatterns": ["dist", "node_modules", "*.config.js"]
+  "ignorePatterns": ["dist", "node_modules", "*.config.js", "*.config.mjs", "frontend/**/*"]
 }

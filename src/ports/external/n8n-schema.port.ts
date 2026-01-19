@@ -5,7 +5,7 @@
  * definiciones de nodos de n8n.
  */
 
-import { NodeCategoryEnum } from '@core/domain/enums/node.enums.js';
+import { NodeCategoryEnum } from '#core/domain/enums/node.enums.js';
 
 /**
  * Definición de nodo n8n

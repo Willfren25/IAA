@@ -4,6 +4,13 @@
   "description": "IA Agent specialized in generating n8n workflows from natural language or partial JSON",
   "type": "module",
   "main": "dist/index.js",
+  "imports": {
+    "#core/*": "./dist/core/*",
+    "#ports/*": "./dist/ports/*",
+    "#adapters/*": "./dist/adapters/*",
+    "#application/*": "./dist/application/*",
+    "#infrastructure/*": "./dist/infrastructure/*"
+  },
   "bin": {
     "iaa": "./dist/adapters/input/cli/cli.js"
   },
@@ -33,6 +40,8 @@
     "build": "tsc",
     "dev": "tsc --watch",
     "start": "node dist/adapters/input/cli/cli.js",
+    "server": "node dist/server.js",
+    "dev:server": "npm run build && npm run server",
     "cli": "node --loader ts-node/esm src/adapters/input/cli/cli.ts",
     "lint": "eslint src --ext .ts --fix",
     "format": "prettier --write \"src/**/*.ts\"",
@@ -71,6 +80,7 @@
     "husky": "^8.0.3",
     "lint-staged": "^15.2.2",
     "prettier": "^3.1.1",
+    "tsc-alias": "^1.8.16",
     "typescript": "^5.3.3"
   },
   "lint-staged": {
