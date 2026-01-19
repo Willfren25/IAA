@@ -1,0 +1,28 @@
+@meta
+n8n_version: 1.0.0
+output: json
+strict: false
+
+@trigger
+type: webhook
+method: POST
+path: /api/create-workflow
+
+@workflow
+1. Recibir datos del webhook con información del cliente
+2. Validar que el email tenga formato correcto
+3. Si el cliente es nuevo, crear registro en la base de datos
+4. Enviar email de bienvenida con Gmail
+5. Notificar al equipo de ventas por Slack
+6. Retornar respuesta de éxito
+
+@constraints
+- max_nodes: 10
+- timeout: 30
+- require_credentials
+
+@assumptions
+- credentials_exist
+- error_handling: retry
+- retries: 3
+- Las credenciales de Gmail y Slack están configuradas

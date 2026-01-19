@@ -1,0 +1,169 @@
+---
+import Layout from '@layouts/Layout.astro';
+import WorkflowGenerator from '@components/WorkflowGenerator';
+---
+
+<Layout title="Dashboard">
+  <!-- Hero Section -->
+  <section class="relative py-20 overflow-hidden">
+    <!-- Background gradient -->
+    <div class="absolute inset-0 bg-gradient-to-br from-n8n-primary/10 via-transparent to-n8n-accent/10 pointer-events-none"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-n8n-primary/5 rounded-full blur-3xl pointer-events-none"></div>
+    
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h1 class="text-4xl md:text-6xl font-bold mb-6">
+        Genera Workflows <span class="gradient-text">n8n</span>
+        <br />con Lenguaje Natural
+      </h1>
+      <p class="text-xl text-gray-400 max-w-3xl mx-auto mb-8">
+        Describe tu automatización en español y obtén un workflow n8n listo para importar.
+        Potenciado por IA con Claude y GPT-4.
+      </p>
+      
+      <!-- Stats -->
+      <div class="flex flex-wrap justify-center gap-8 mb-12">
+        <div class="text-center">
+          <div class="text-3xl font-bold text-n8n-primary">50+</div>
+          <div class="text-sm text-gray-500">Tipos de Nodos</div>
+        </div>
+        <div class="text-center">
+          <div class="text-3xl font-bold text-n8n-accent">DSL</div>
+          <div class="text-sm text-gray-500">Sintaxis Simple</div>
+        </div>
+        <div class="text-center">
+          <div class="text-3xl font-bold text-n8n-success">100%</div>
+          <div class="text-sm text-gray-500">Compatible n8n</div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Generator Section -->
+  <section class="py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <WorkflowGenerator client:load />
+    </div>
+  </section>
+  
+  <!-- Features Section -->
+  <section class="py-20 bg-n8n-secondary/50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="section-title">¿Cómo funciona?</h2>
+        <p class="section-subtitle">Tres pasos simples para generar tu workflow</p>
+      </div>
+      
+      <div class="grid md:grid-cols-3 gap-8">
+        <!-- Step 1 -->
+        <div class="card p-6 text-center group hover:border-n8n-primary/50 transition-colors">
+          <div class="w-16 h-16 mx-auto mb-4 rounded-xl bg-n8n-primary/20 flex items-center justify-center group-hover:bg-n8n-primary/30 transition-colors">
+            <svg class="w-8 h-8 text-n8n-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold mb-2">1. Describe</h3>
+          <p class="text-gray-400 text-sm">
+            Escribe tu automatización usando nuestro DSL simple con secciones @meta, @trigger y @workflow
+          </p>
+        </div>
+        
+        <!-- Step 2 -->
+        <div class="card p-6 text-center group hover:border-n8n-accent/50 transition-colors">
+          <div class="w-16 h-16 mx-auto mb-4 rounded-xl bg-n8n-accent/20 flex items-center justify-center group-hover:bg-n8n-accent/30 transition-colors">
+            <svg class="w-8 h-8 text-n8n-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold mb-2">2. Genera</h3>
+          <p class="text-gray-400 text-sm">
+            La IA analiza tu descripción y genera el workflow óptimo con nodos y conexiones
+          </p>
+        </div>
+        
+        <!-- Step 3 -->
+        <div class="card p-6 text-center group hover:border-n8n-success/50 transition-colors">
+          <div class="w-16 h-16 mx-auto mb-4 rounded-xl bg-n8n-success/20 flex items-center justify-center group-hover:bg-n8n-success/30 transition-colors">
+            <svg class="w-8 h-8 text-n8n-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold mb-2">3. Importa</h3>
+          <p class="text-gray-400 text-sm">
+            Descarga el JSON y copia directo en n8n. ¡Tu workflow está listo para ejecutar!
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- DSL Reference -->
+  <section class="py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="section-title">Referencia DSL</h2>
+        <p class="section-subtitle">Sintaxis simple para describir workflows complejos</p>
+      </div>
+      
+      <div class="grid md:grid-cols-2 gap-8">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="font-semibold">Secciones Disponibles</h3>
+          </div>
+          <div class="card-body space-y-4">
+            <div class="flex items-start gap-3">
+              <code class="text-n8n-primary font-mono">@meta</code>
+              <p class="text-sm text-gray-400">Versión de n8n, formato de salida, modo estricto</p>
+            </div>
+            <div class="flex items-start gap-3">
+              <code class="text-n8n-primary font-mono">@trigger</code>
+              <p class="text-sm text-gray-400">Tipo de disparador: webhook, cron, manual, etc.</p>
+            </div>
+            <div class="flex items-start gap-3">
+              <code class="text-n8n-primary font-mono">@workflow</code>
+              <p class="text-sm text-gray-400">Pasos numerados describiendo la automatización</p>
+            </div>
+            <div class="flex items-start gap-3">
+              <code class="text-n8n-primary font-mono">@constraints</code>
+              <p class="text-sm text-gray-400">Límites: max_nodes, timeout, credenciales</p>
+            </div>
+            <div class="flex items-start gap-3">
+              <code class="text-n8n-primary font-mono">@assumptions</code>
+              <p class="text-sm text-gray-400">Supuestos: manejo de errores, reintentos</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card">
+          <div class="card-header">
+            <h3 class="font-semibold">Ejemplo Completo</h3>
+          </div>
+          <div class="card-body">
+            <pre class="text-sm font-mono text-gray-300 bg-n8n-dark p-4 rounded-lg overflow-x-auto"><code>@meta
+n8n_version: 1.0.0
+output: json
+
+@trigger
+type: webhook
+method: POST
+path: /api/process
+
+@workflow
+1. Recibir datos del webhook
+2. Validar formato del email
+3. Si es válido, guardar en DB
+4. Enviar notificación por Slack
+5. Retornar respuesta OK
+
+@constraints
+- max_nodes: 10
+- timeout: 30
+
+@assumptions
+- error_handling: retry
+- retries: 3</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
